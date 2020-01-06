@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">IQBell</string>
+    <string name="date_label">Date</string>
+    <string name="time_label">Time</string>
+    <string name="mode_label">Mode</string>
+    <string name="loading">Loading</string>
 </resources>

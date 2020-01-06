@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">IQBell</string>
+    <string name="date_label">Дата</string>
+    <string name="mode_label">Режим</string>
+    <string name="time_label">Время</string>
+    <string name="loading">Загрузка</string>
 </resources>
