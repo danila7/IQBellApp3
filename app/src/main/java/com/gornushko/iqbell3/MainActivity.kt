@@ -7,6 +7,8 @@ import androidx.appcompat.widget.Toolbar
 import kotlinx.android.synthetic.main.activity_main.*
 import org.eclipse.paho.android.service.MqttAndroidClient
 import org.eclipse.paho.client.mqttv3.*
+import org.eclipse.paho.client.mqttv3.MqttClient
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,10 +22,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun connect() {
-        mqttAndroidClient = MqttAndroidClient(
-            applicationContext,
-            "tcp://tailor.cloudmqtt.com:18846", "AndroidClient"
-        )
+        val clientId = MqttClient.generateClientId()
+        mqttAndroidClient = MqttAndroidClient(this, "tcp://tailor.cloudmqtt.com:18846", clientId)
         val options = MqttConnectOptions()
         options.mqttVersion = MqttConnectOptions.MQTT_VERSION_3_1
         options.isCleanSession = false
@@ -99,21 +99,6 @@ class MainActivity : AppCompatActivity() {
                 // Acknowledgement on delivery complete
             }
         })
-    }
-
-    fun publish(topic: String, data: String) {
-        val encodedPayload: ByteArray
-        try {
-            encodedPayload = data.toByteArray(charset("UTF-8"))
-            val message = MqttMessage(encodedPayload)
-            message.qos = 1
-            message.isRetained = false
-            mqttAndroidClient.publish(topic, message)
-        } catch (e: Exception) {
-            // Give Callback on error here
-        } catch (e: MqttException) {
-            // Give Callback on error here
-        }
     }
 
     override fun onDestroy() {
