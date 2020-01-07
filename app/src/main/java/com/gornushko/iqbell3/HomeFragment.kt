@@ -25,11 +25,11 @@ private lateinit var extraByteData: ByteArray
 @ExperimentalUnsignedTypes
 class HomeFragment : Fragment() {
 
-    private lateinit var listener: MyFragmentListener
+    private lateinit var listener: MyListener
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        listener = context as MyFragmentListener
+        listener = context as MyListener
     }
 
     override fun onCreateView(
@@ -61,7 +61,7 @@ class HomeFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun updateView() {
         iqTime.timeInMillis =
-            (getLongFromByteArray(byteData) - 10_800) * 1_000 //-3 h (Arduino stores MSC time, Android - UTC)
+            getLongFromByteArray(byteData) * 1_000 //-3 h (Arduino stores MSC time, Android - UTC)
         date.text = df.format(iqTime.time)
         time.text = tf.format(iqTime.time)
         clock.setTime(

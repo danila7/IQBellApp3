@@ -118,19 +118,21 @@ class IQService : Service() {
     private fun sendData(
         data: ByteArray,
         topic: String
-    ): Boolean { //an universal function for receiving/sending data
+    ) { //an universal function for receiving/sending data
+        e(TAG, "sending ${data.size} bytes of data")
         try {
             val message = MqttMessage(data)
             message.qos = 0
             message.isRetained = false
             mqttAndroidClient.publish(topic, message)
-            return true
+            pi?.send(OK)
         } catch (e: Exception) {
+            pi?.send(ERROR)
             // Give Callback on error here
         } catch (e: MqttException) {
+            pi?.send(ERROR)
             // Give Callback on error here
         }
-        return false
     }
 
     private fun connect() {

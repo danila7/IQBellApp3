@@ -1,20 +1,15 @@
 package com.gornushko.iqbell3
 
 import android.content.Context
+import android.util.Log.e
 
 
 @ExperimentalUnsignedTypes
 class HolidaysContainerFragment : MyContainerFragment() {
-    override val one = ShortHolidaysFragment()
-    override val two = LongHolidaysFragment()
+    override val one = ShortHolidaysFragment(this)
+    override val two = LongHolidaysFragment(this)
     override var nameFirst = String()
     override var nameSecond = String()
-
-    override fun send() {
-        val dataToSend = if (activeTab == 0) ByteArray(1) { 0x3 } + one.send()
-        else ByteArray(1) { 0x2 } + two.send()
-        listener?.sendData(dataToSend, "s")
-    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -30,6 +25,11 @@ class HolidaysContainerFragment : MyContainerFragment() {
     override fun updateData(data: ByteArray) {
         two.updateData(data.copyOfRange(0, 32))
         one.updateData(data.copyOfRange(32, 64))
+    }
+
+    override fun editData(data: ByteArray, offset: Int) {
+        listener?.editData(data, offset + if (activeTab == 0) 80 else 48)
+        e("HOLIDAYS CONTAINER", "DATA EDITED")
     }
 
 }

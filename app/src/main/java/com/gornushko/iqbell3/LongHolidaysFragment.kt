@@ -6,7 +6,7 @@ import org.jetbrains.anko.support.v4.alert
 import java.util.*
 
 @ExperimentalUnsignedTypes
-class LongHolidaysFragment : MyListFragment() {
+class LongHolidaysFragment(listener2: MyFragmentListener) : MyListFragment(listener2) {
 
     override var stringData = Array(8) { " " }
 
@@ -44,6 +44,12 @@ class LongHolidaysFragment : MyListFragment() {
     override fun clear() {
         for (i in 0..3) byteData[adapter?.selectedItem!! * 4 + i] = 0xFF.toByte()
         updateView()
+        listener2.editData(
+            byteData.copyOfRange(
+                adapter?.selectedItem!! * 4,
+                adapter?.selectedItem!! * 4 + 4
+            ), adapter?.selectedItem!! * 4
+        )
     }
 
     override fun edit() {
@@ -68,6 +74,12 @@ class LongHolidaysFragment : MyListFragment() {
                                                 byteData[adapter?.selectedItem!! * 4 + 3] =
                                                     mDayEnd.toUByte().toByte()
                                                 updateView()
+                                                listener2.editData(
+                                                    byteData.copyOfRange(
+                                                        adapter?.selectedItem!! * 4,
+                                                        adapter?.selectedItem!! * 4 + 4
+                                                    ), adapter?.selectedItem!! * 4
+                                                )
                                             }
                                         },
                                         c.get(Calendar.YEAR),

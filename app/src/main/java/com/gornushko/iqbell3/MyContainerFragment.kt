@@ -12,18 +12,18 @@ import androidx.viewpager.widget.ViewPager
 import kotlinx.android.synthetic.main.fragment_container.view.*
 
 @ExperimentalUnsignedTypes
-abstract class MyContainerFragment : Fragment() {
+abstract class MyContainerFragment : Fragment(), MyFragmentListener {
 
     abstract val one: MyListFragment
     abstract val two: MyListFragment
     abstract var nameFirst: String
     abstract var nameSecond: String
-    var listener: MyFragmentListener? = null
+    var listener: MyListener? = null
     var activeTab = 0
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        listener = context as MyFragmentListener
+        listener = context as MyListener
     }
 
     override fun onCreateView(
@@ -63,8 +63,6 @@ abstract class MyContainerFragment : Fragment() {
         if (activeTab == 0) one.edit()
         else two.edit()
     }
-
-    abstract fun send()
 
     inner class Adapter : FragmentPagerAdapter(
         childFragmentManager,

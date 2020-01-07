@@ -8,17 +8,17 @@ import android.widget.ListView
 import androidx.fragment.app.ListFragment
 
 @ExperimentalUnsignedTypes
-abstract class MyListFragment : ListFragment() {
+abstract class MyListFragment(val listener2: MyFragmentListener) : ListFragment() {
 
     abstract var stringData: Array<String>
     lateinit var byteData: ByteArray
     var adapter: MyArrayAdapter? = null
-    var listener: MyFragmentListener? = null
+    var listener: MyListener? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         adapter = MyArrayAdapter(activity!!, android.R.layout.simple_list_item_1, stringData)
-        listener = context as MyFragmentListener
+        listener = context as MyListener
     }
 
     fun setStartData(data: ByteArray) {
@@ -55,6 +55,4 @@ abstract class MyListFragment : ListFragment() {
     abstract fun clear()
 
     abstract fun edit()
-
-    fun send() = byteData
 }

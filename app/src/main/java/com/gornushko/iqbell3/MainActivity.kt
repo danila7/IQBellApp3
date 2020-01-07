@@ -2,6 +2,7 @@ package com.gornushko.iqbell3
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log.e
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
@@ -13,7 +14,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.*
 
 @ExperimentalUnsignedTypes
-class MainActivity : AppCompatActivity(), MyFragmentListener {
+class MainActivity : AppCompatActivity(), MyListener {
 
     companion object Const {
         const val START_INFO = "start_d"
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity(), MyFragmentListener {
     private lateinit var dialog: AlertDialog
     private lateinit var lastData: ByteArray
     private lateinit var lastTopic: String
+    private lateinit var toSend: ByteArray
     private val homeFragment = HomeFragment()
     private val timetableContainerFragment = TimetableContainerFragment()
     private val holidaysContainerFragment = HolidaysContainerFragment()
@@ -41,12 +43,13 @@ class MainActivity : AppCompatActivity(), MyFragmentListener {
         fm.beginTransaction().add(R.id.fragment_container, timetableContainerFragment, "2")
             .hide(timetableContainerFragment).commit()
         fm.beginTransaction().add(R.id.fragment_container, homeFragment, "1").commit()
-        val startData = intent.getByteArrayExtra(START_INFO)!!
-        val startExtraData = intent.getByteArrayExtra(START_DATA)!!
-        homeFragment.setStartData(startData)
-        homeFragment.setStartExtraData(startExtraData.copyOfRange(0, 48))
-        timetableContainerFragment.setStartData(startExtraData.copyOfRange(0, 48))
-        holidaysContainerFragment.setStartData(startExtraData.copyOfRange(48, 112))
+        val info = intent.getByteArrayExtra(START_INFO)!!
+        val data = intent.getByteArrayExtra(START_DATA)!!
+        toSend = data
+        homeFragment.setStartData(info)
+        homeFragment.setStartExtraData(data.copyOfRange(0, 48))
+        timetableContainerFragment.setStartData(data.copyOfRange(0, 48))
+        holidaysContainerFragment.setStartData(data.copyOfRange(48, 112))
         startService(
             intentFor<IQService>(
                 IQService.ACTION to IQService.NEW_PENDING_INTENT,
@@ -73,9 +76,8 @@ class MainActivity : AppCompatActivity(), MyFragmentListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_about -> startActivity(intentFor<AboutActivity>())
-            R.id.action_send -> when (active) {
-                is TimetableContainerFragment -> timetableContainerFragment.send()
-                is HolidaysContainerFragment -> holidaysContainerFragment.send()
+            R.id.action_send -> {
+                sendData(toSend, "s")
             }
             R.id.action_edit -> when (active) {
                 is TimetableContainerFragment -> timetableContainerFragment.edit()
@@ -152,6 +154,13 @@ class MainActivity : AppCompatActivity(), MyFragmentListener {
     override fun onDestroy() {
         super.onDestroy()
         if (!goingBack) startService(intentFor<IQService>(IQService.ACTION to IQService.STOP_SERVICE))
+    }
+
+    override fun editData(data: ByteArray, offset: Int) {
+        for (i in offset until offset + data.size) {
+            toSend[i] = data[i - offset]
+        }
+        e("MAIN ACTIVITY", "DATA EDITED")
     }
 
     override fun sendData(data: ByteArray, topic: String) {

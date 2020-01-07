@@ -5,7 +5,7 @@ import org.jetbrains.anko.support.v4.alert
 import java.util.*
 
 @ExperimentalUnsignedTypes
-class ShortHolidaysFragment : MyListFragment() {
+class ShortHolidaysFragment(listener2: MyFragmentListener) : MyListFragment(listener2) {
 
     override var stringData = Array(16) { " " }
 
@@ -36,6 +36,12 @@ class ShortHolidaysFragment : MyListFragment() {
 
     override fun clear() {
         for (i in 0..1) byteData[adapter?.selectedItem!! * 2 + i] = 0xFF.toByte()
+        listener2.editData(
+            byteData.copyOfRange(
+                adapter?.selectedItem!! * 2,
+                adapter?.selectedItem!! * 2 + 2
+            ), adapter?.selectedItem!! * 2
+        )
         updateView()
     }
 
@@ -50,12 +56,24 @@ class ShortHolidaysFragment : MyListFragment() {
                             byteData[adapter?.selectedItem!! * 2] = (mMonth + 1).toUByte().toByte()
                             byteData[adapter?.selectedItem!! * 2 + 1] = mDay.toUByte().toByte()
                             updateView()
+                            listener2.editData(
+                                byteData.copyOfRange(
+                                    adapter?.selectedItem!! * 2,
+                                    adapter?.selectedItem!! * 2 + 2
+                                ), adapter?.selectedItem!! * 2
+                            )
                         }
                         positiveButton(getString(R.string.short_day)) {
                             byteData[adapter?.selectedItem!! * 2] =
                                 ((mMonth + 1).toUByte() or 0x80.toUByte()).toByte()
                             byteData[adapter?.selectedItem!! * 2 + 1] = mDay.toUByte().toByte()
                             updateView()
+                            listener2.editData(
+                                byteData.copyOfRange(
+                                    adapter?.selectedItem!! * 2,
+                                    adapter?.selectedItem!! * 2 + 2
+                                ), adapter?.selectedItem!! * 2
+                            )
                         }
                     }.show()
                 }

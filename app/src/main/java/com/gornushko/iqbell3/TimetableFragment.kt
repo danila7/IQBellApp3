@@ -4,7 +4,7 @@ import android.app.TimePickerDialog
 import kotlin.experimental.or
 
 @ExperimentalUnsignedTypes
-class TimetableFragment : MyListFragment() {
+class TimetableFragment(listener2: MyFragmentListener) : MyListFragment(listener2) {
 
     override var stringData = Array(24) { " " }
 
@@ -24,6 +24,7 @@ class TimetableFragment : MyListFragment() {
     override fun clear() {
         byteData[adapter?.selectedItem!!] =
             byteData[adapter?.selectedItem!!] or 0x80.toUByte().toByte()
+        listener2.editData(byteArrayOf(byteData[adapter?.selectedItem!!]), adapter?.selectedItem!!)
         updateView()
     }
 
@@ -36,6 +37,11 @@ class TimetableFragment : MyListFragment() {
                     if (t < 128.toUByte()) {
                         byteData[adapter?.selectedItem!!] = t.toByte()
                         updateView()
+                        listener2.editData(
+                            byteArrayOf(byteData[adapter?.selectedItem!!]),
+                            adapter?.selectedItem!!
+                        )
+
                     }
                 }
             }, tt / 12 + 8, tt % 12 * 5, true

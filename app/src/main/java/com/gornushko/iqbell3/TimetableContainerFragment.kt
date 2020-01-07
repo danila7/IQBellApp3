@@ -1,12 +1,13 @@
 package com.gornushko.iqbell3
 
 import android.content.Context
+import android.util.Log.e
 
 
 @ExperimentalUnsignedTypes
 class TimetableContainerFragment : MyContainerFragment() {
-    override val one = TimetableFragment()
-    override val two = TimetableFragment()
+    override val one = TimetableFragment(this)
+    override val two = TimetableFragment(this)
     override var nameFirst = String()
     override var nameSecond = String()
 
@@ -26,10 +27,8 @@ class TimetableContainerFragment : MyContainerFragment() {
         two.updateData(data.copyOfRange(24, 48))
     }
 
-    override fun send() {
-        val dataToSend = if (activeTab == 0) ByteArray(1) { 0x1 } + one.send()
-        else ByteArray(1) { 0x6 } + two.send()
-        listener?.sendData(dataToSend, "s")
+    override fun editData(data: ByteArray, offset: Int) {
+        listener?.editData(data, offset + if (activeTab == 0) 0 else 24)
+        e("TIMETABLE CONTAINER", "DATA EDITED")
     }
-
 }
