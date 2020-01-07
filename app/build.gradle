@@ -23,6 +23,13 @@ android {
     }
 }
 
+repositories {
+    maven {
+        url "http://dl.bintray.com/glomadrian/maven"
+    }
+}
+
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -32,8 +39,12 @@ dependencies {
     implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation "org.jetbrains.anko:anko:$anko_version"
+    implementation "org.jetbrains.anko:anko-commons:$anko_version"
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation "com.github.leondzn:simple-analog-clock:1.0.1"
+    implementation 'com.github.glomadrian:loadingballs:1.1@aar'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-
 }

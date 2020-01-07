@@ -4,5 +4,22 @@
     <string name="date_label">Дата</string>
     <string name="mode_label">Режим</string>
     <string name="time_label">Время</string>
-    <string name="loading">Загрузка</string>
+    <string name="loading">Загрузка…</string>
+    <string name="no_connection">Неудается подключиться к MQTT серверу</string>
+    <string name="iq_status">Состояние подключения:</string>
+    <string name="developer">Разработчик: Горнушко Данила</string>
+    <string name="purpose">Приложение для управления устройством IQBell</string>
+    <string name="thanks">Благодарности:</string>
+    <string name="license">Лицензия: GNU General Public License, version 3 (GPLv3)</string>
+    <string name="battery">Батарея</string>
+    <string name="timetable">Расписание</string>
+    <string name="home">Главная</string>
+    <string name="about">О приложении</string>
+    <string name="time">Время</string>
+    <string name="holidays">Каникулы</string>
+    <string name="send">Отправить</string>
+    <string name="clear">Очистить</string>
+    <string name="edit">Редактировать</string>
+    <string name="connecting">Соединение…</string>
+    <string name="connected">MQTT подключен</string>
 </resources>

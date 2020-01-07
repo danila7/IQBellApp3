@@ -4,4 +4,9 @@
     <color name="colorPrimaryDark">#4a0072</color>
     <color name="colorPrimaryLight">#C77CFF</color>
     <color name="colorAccent">#ff8f00</color>
+
+    <color name="ball1">#FFD91C</color>
+    <color name="ball2">#FF4B4A</color>
+    <color name="ball3">#3D8EFF</color>
+    <color name="selected_item">#DCDCDC</color>
 </resources>

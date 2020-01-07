@@ -3,5 +3,23 @@
     <string name="date_label">Date</string>
     <string name="time_label">Time</string>
     <string name="mode_label">Mode</string>
-    <string name="loading">Loading</string>
+    <string name="loading">Loading…</string>
+    <string name="no_connection">Unable to connect to the MQTT server</string>
+    <string name="iq_status">Connection Status:</string>
+    <string name="developer">Developer: Danila Gornushko</string>
+    <string name="purpose">An application for controlling IQBell Device</string>
+    <string name="thanks">Thanks to:</string>
+    <string name="names" translatable="false">Антон Науменко, Светлана Науменко, Miha-x64, Алексей Шефлер, Сергей Дынников, Расита Губачикова, Мухаммед Товкуев</string>
+    <string name="license">License: GNU General Public License, version 3 (GPLv3)</string>
+    <string name="home">Home</string>
+    <string name="battery">Battery</string>
+    <string name="time">Time</string>
+    <string name="timetable">Timetable</string>
+    <string name="holidays">Holidays</string>
+    <string name="about">About</string>
+    <string name="send">Send</string>
+    <string name="edit">Edit</string>
+    <string name="clear">Clear</string>
+    <string name="connecting">Connecting…</string>
+    <string name="connected">MQTT is connected</string>
 </resources>

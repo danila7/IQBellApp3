@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_home"
+        android:enabled="true"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/home"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_timetable"
+        android:enabled="true"
+        android:icon="@drawable/ic_timetable"
+        android:title="@string/timetable"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_holidays"
+        android:enabled="true"
+        android:icon="@drawable/ic_calendar_edit"
+        android:title="@string/holidays"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_battery"
+        android:enabled="true"
+        android:icon="@drawable/ic_battery_bluetooth_variant"
+        android:title="@string/battery"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_time"
+        android:enabled="true"
+        android:icon="@drawable/ic_access_time_black_24dp"
+        android:title="@string/time"
+        app:showAsAction="ifRoom" />
+</menu>
