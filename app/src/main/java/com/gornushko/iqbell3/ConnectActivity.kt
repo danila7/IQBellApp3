@@ -2,13 +2,15 @@ package com.gornushko.iqbell3
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log.e
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import kotlinx.android.synthetic.main.activity_connect.*
+import org.jetbrains.anko.clearTask
+import org.jetbrains.anko.clearTop
 import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.newTask
 
 
 @ExperimentalUnsignedTypes
@@ -20,10 +22,14 @@ class ConnectActivity : AppCompatActivity() {
 
     private var connected = false
 
-    private fun connected(data: ByteArray, extraData: ByteArray) {
+    private fun connected(info: ByteArray, data: ByteArray) {
         connected = true
-        //startActivity(intentFor<MainActivity>(MainActivity.START_DATA to data,
-        //   MainActivity.START_EXTRA_DATA to extraData).newTask().clearTask().clearTop())
+        startActivity(
+            intentFor<MainActivity>(
+                MainActivity.START_INFO to info,
+                MainActivity.START_DATA to data
+            ).newTask().clearTask().clearTop()
+        )
     }
 
     private fun reconnecting() {
@@ -83,9 +89,10 @@ class ConnectActivity : AppCompatActivity() {
         when (resultCode) {
             IQService.NO_INTERNET -> reconnecting()
             IQService.CONNECTING -> connecting()
-            IQService.CONNECTED -> e("CONNECT_ACTIVITY", "connected")
-            //connected(data!!.getByteArrayExtra(IQService.DATA)!!,
-            //data.getByteArrayExtra(IQService.EXTRA_DATA)!!)
+            IQService.CONNECTED -> connected(
+                data!!.getByteArrayExtra(IQService.INFO)!!,
+                data.getByteArrayExtra(IQService.DATA)!!
+            )
         }
     }
 

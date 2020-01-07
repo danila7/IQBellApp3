@@ -39,10 +39,14 @@ class IQService : Service() {
         const val STOP_SERVICE = 404
         const val NEW_PENDING_INTENT = 301
         const val SEND_DATA = 22
+        const val INFO = "inf"
         const val DATA = "dt"
-        const val EXTRA_DATA = "edt"
+        const val NEW_INFO = 51
+        const val NEW_DATA = 47
         const val TAG = "MqttClient"
         const val TOPIC = "tp"
+        const val ERROR = 321
+        const val OK = 123
     }
 
     override fun onCreate() {
@@ -193,22 +197,25 @@ class IQService : Service() {
 
             override fun messageArrived(topic: String, message: MqttMessage) {
                 try {
+                    val data = message.payload
                     if (topic == "i" && startInfo == null) {
-                        startInfo = message.payload
+                        startInfo = data
                     }
                     if (topic == "d" && startData == null) {
-                        startData = message.payload
+                        startData = data
                     }
                     if (startData != null && startInfo != null && startConnection) {
                         pi?.send(
                             applicationContext,
                             CONNECTED,
-                            Intent().putExtra(DATA, startInfo).putExtra(EXTRA_DATA, startData)
+                            Intent().putExtra(INFO, startInfo).putExtra(DATA, startData)
                         )
                         updateNotification(getString(R.string.connected), false)
                         startConnection = false
+                    } else when (topic) {
+                        "i" -> pi?.send(applicationContext, NEW_INFO, Intent().putExtra(DATA, data))
+                        "d" -> pi?.send(applicationContext, NEW_DATA, Intent().putExtra(DATA, data))
                     }
-                    val data = message.payload
                     e(TAG, "message received: ${data.size} bytes, topic: $topic")
                 } catch (e: Exception) {
                     // Give your callback on error here
