@@ -45,9 +45,11 @@ class LongHolidaysFragment(listener2: MyFragmentListener) : MyListFragment(liste
         for (i in 0..3) byteData[adapter?.selectedItem!! * 4 + i] = 0xFF.toByte()
         updateView()
         listener2.editData(
-            byteData.copyOfRange(
-                adapter?.selectedItem!! * 4,
-                adapter?.selectedItem!! * 4 + 4
+            byteArrayOf(
+                0xFF.toByte(),
+                0xFF.toByte(),
+                0xFF.toByte(),
+                0xFF.toByte()
             ), adapter?.selectedItem!! * 4
         )
     }
@@ -75,9 +77,11 @@ class LongHolidaysFragment(listener2: MyFragmentListener) : MyListFragment(liste
                                                     mDayEnd.toUByte().toByte()
                                                 updateView()
                                                 listener2.editData(
-                                                    byteData.copyOfRange(
-                                                        adapter?.selectedItem!! * 4,
-                                                        adapter?.selectedItem!! * 4 + 4
+                                                    byteArrayOf(
+                                                        (mMonthStart + 1).toUByte().toByte(),
+                                                        mDayStart.toUByte().toByte(),
+                                                        (mMonthEnd + 1).toUByte().toByte(),
+                                                        mDayEnd.toUByte().toByte()
                                                     ), adapter?.selectedItem!! * 4
                                                 )
                                             }

@@ -37,9 +37,9 @@ class ShortHolidaysFragment(listener2: MyFragmentListener) : MyListFragment(list
     override fun clear() {
         for (i in 0..1) byteData[adapter?.selectedItem!! * 2 + i] = 0xFF.toByte()
         listener2.editData(
-            byteData.copyOfRange(
-                adapter?.selectedItem!! * 2,
-                adapter?.selectedItem!! * 2 + 2
+            byteArrayOf(
+                0xFF.toByte(),
+                0xFF.toByte()
             ), adapter?.selectedItem!! * 2
         )
         updateView()
@@ -57,9 +57,9 @@ class ShortHolidaysFragment(listener2: MyFragmentListener) : MyListFragment(list
                             byteData[adapter?.selectedItem!! * 2 + 1] = mDay.toUByte().toByte()
                             updateView()
                             listener2.editData(
-                                byteData.copyOfRange(
-                                    adapter?.selectedItem!! * 2,
-                                    adapter?.selectedItem!! * 2 + 2
+                                byteArrayOf(
+                                    (mMonth + 1).toUByte().toByte(),
+                                    mDay.toUByte().toByte()
                                 ), adapter?.selectedItem!! * 2
                             )
                         }
@@ -69,9 +69,9 @@ class ShortHolidaysFragment(listener2: MyFragmentListener) : MyListFragment(list
                             byteData[adapter?.selectedItem!! * 2 + 1] = mDay.toUByte().toByte()
                             updateView()
                             listener2.editData(
-                                byteData.copyOfRange(
-                                    adapter?.selectedItem!! * 2,
-                                    adapter?.selectedItem!! * 2 + 2
+                                byteArrayOf(
+                                    ((mMonth + 1).toUByte() or 0x80.toUByte()).toByte(),
+                                    mDay.toUByte().toByte()
                                 ), adapter?.selectedItem!! * 2
                             )
                         }
