@@ -38,9 +38,9 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
-        view.assembly_button.onClick { listener.sendData(byteArrayOf(0xA), "m") }
-        view.workshop_button.onClick { listener.sendData(byteArrayOf(0x9), "m") }
-        view.ring_button.onClick { listener.sendData(byteArrayOf(0x8), "m") }
+        view.assembly_button.onClick { listener.sendData(byteArrayOf(0x3), "m") }
+        view.workshop_button.onClick { listener.sendData(byteArrayOf(0x2), "m") }
+        view.ring_button.onClick { listener.sendData(byteArrayOf(0x1), "m") }
         return view
     }
 
