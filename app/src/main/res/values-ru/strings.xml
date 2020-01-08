@@ -57,7 +57,7 @@
     <string name="workshop_ringing">Звонок на совещание</string>
     <string name="assembly_ringing">Звонок на линейку</string>
     <string name="normal_classes">Обычные уроки</string>
-    <string name="manual_bells_control_na">Ручное управление звонками не доступно</string>
+    <string name="manual_bells_control_na">Ручное управление звонками недоступно</string>
     <string name="next_bell">Следующий звонок</string>
     <string name="time_till_next_bell">Время до него</string>
     <string name="settings">Настройки</string>
