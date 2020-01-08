@@ -5,4 +5,5 @@ interface MyListener {
     fun sendData(data: ByteArray, topic: String)
     fun noEdit()
     fun edit()
+    fun logout()
 }

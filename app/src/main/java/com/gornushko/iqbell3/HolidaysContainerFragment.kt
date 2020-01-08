@@ -1,7 +1,6 @@
 package com.gornushko.iqbell3
 
 import android.content.Context
-import android.util.Log.e
 
 
 @ExperimentalUnsignedTypes
@@ -29,7 +28,6 @@ class HolidaysContainerFragment : MyContainerFragment() {
 
     override fun editData(data: ByteArray, offset: Int) {
         listener?.editData(data, offset + if (activeTab == 0) 80 else 48)
-        e("HOLIDAYS CONTAINER", "DATA EDITED")
     }
 
 }

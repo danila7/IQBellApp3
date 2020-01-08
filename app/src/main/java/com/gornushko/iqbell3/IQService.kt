@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
 import android.os.IBinder
+import android.util.Log.d
 import android.util.Log.e
 import androidx.core.app.NotificationCompat
 import org.eclipse.paho.android.service.MqttAndroidClient
@@ -25,10 +26,6 @@ class IQService : Service() {
     private var startConnection = false
 
     companion object {
-        private const val user = "ujqjrjyr"
-        private val PASSWORD = "iCmu4k4g5RaB".toCharArray()
-        private const val address = "tcp://tailor.cloudmqtt.com:18846"
-        const val clientId = "Android"
         private const val NOTIFICATIONS_CHANNEL = "new_channel"
         const val PENDING_INTENT = "pint"
         const val ACTION = "action"
@@ -51,13 +48,19 @@ class IQService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        mqttAndroidClient = MqttAndroidClient(this, address, clientId)
+        val loginData = getSharedPreferences(ConnectActivity.LOGIN_DATA, Context.MODE_PRIVATE)
+        mqttAndroidClient = MqttAndroidClient(
+            this, loginData.getString(
+                ConnectActivity.URL_N_PORT,
+                ""
+            ), MqttClient.generateClientId()
+        )
         mqttAndroidClient.registerResources(this)
         options.apply {
             mqttVersion = MqttConnectOptions.MQTT_VERSION_3_1
             isCleanSession = false
-            userName = user
-            password = PASSWORD
+            userName = loginData.getString(ConnectActivity.USERNAME, "")
+            password = loginData.getString(ConnectActivity.PASSWORD, "")!!.toCharArray()
         }
     }
 
@@ -119,7 +122,7 @@ class IQService : Service() {
         data: ByteArray,
         topic: String
     ) { //an universal function for receiving/sending data
-        e(TAG, "sending ${data.size} bytes of data")
+        d(TAG, "sending ${data.size} bytes of data")
         try {
             val message = MqttMessage(data)
             message.qos = 0
@@ -137,10 +140,11 @@ class IQService : Service() {
 
     private fun connect() {
         try {
+            e(TAG, "trying to connect...")
             val token = mqttAndroidClient.connect(options)
             token.actionCallback = object : IMqttActionListener {
                 override fun onSuccess(asyncActionToken: IMqttToken) {
-                    e("Connection", "success ")
+                    d("Connection", "success ")
                     pi?.send(CONNECTING)
                     startConnection = true
                     subscribe("d")
@@ -156,6 +160,7 @@ class IQService : Service() {
             }
         } catch (e: MqttException) {
             // Give your callback on connection failure here
+            e(TAG, "MQTT Exception!")
         }
     }
 
@@ -165,7 +170,7 @@ class IQService : Service() {
             mqttAndroidClient.subscribe(topic, qos, null, object : IMqttActionListener {
                 override fun onSuccess(asyncActionToken: IMqttToken) {
                     // Give your callback on Subscription here
-                    e(TAG, "subscription succeed")
+                    d(TAG, "subscription succeed")
                 }
 
                 override fun onFailure(
@@ -192,7 +197,7 @@ class IQService : Service() {
             }
 
             override fun connectComplete(reconnect: Boolean, serverURI: String?) {
-                e(TAG, "connection complete callback!!!")
+                d(TAG, "connection complete callback!!!")
                 pi?.send(CONNECTING)
                 updateNotification(getString(R.string.loading), true)
             }
@@ -218,23 +223,18 @@ class IQService : Service() {
                         "i" -> pi?.send(applicationContext, NEW_INFO, Intent().putExtra(DATA, data))
                         "d" -> pi?.send(applicationContext, NEW_DATA, Intent().putExtra(DATA, data))
                     }
-                    e(TAG, "message received: ${data.size} bytes, topic: $topic")
                 } catch (e: Exception) {
                     // Give your callback on error here
                 }
             }
 
-            override fun deliveryComplete(token: IMqttDeliveryToken) {
-                // Acknowledgement on delivery complete
-            }
+            override fun deliveryComplete(token: IMqttDeliveryToken) {}
         })
     }
 
 
     private fun disconnect() {
-        e(TAG, "disconnecting...")
-        mqttAndroidClient.unsubscribe("d")
-        mqttAndroidClient.unsubscribe("i")
+        d(TAG, "disconnecting...")
         mqttAndroidClient.unregisterResources()
         mqttAndroidClient.close()
     }

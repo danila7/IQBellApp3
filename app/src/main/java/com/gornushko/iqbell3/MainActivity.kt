@@ -1,8 +1,9 @@
 package com.gornushko.iqbell3
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log.e
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity(), MyListener {
     private val homeFragment = HomeFragment()
     private val timetableContainerFragment = TimetableContainerFragment()
     private val holidaysContainerFragment = HolidaysContainerFragment()
+    private val settingsFragment = SettingsFragment()
     private var active: Fragment = homeFragment
     private val fm = supportFragmentManager
     private var edit = false
@@ -38,6 +40,8 @@ class MainActivity : AppCompatActivity(), MyListener {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar as Toolbar?)
         bottomNavigation.setOnNavigationItemSelectedListener(navListener)
+        fm.beginTransaction().add(R.id.fragment_container, settingsFragment, "4")
+            .hide(settingsFragment).commit()
         fm.beginTransaction().add(R.id.fragment_container, holidaysContainerFragment, "3")
             .hide(holidaysContainerFragment).commit()
         fm.beginTransaction().add(R.id.fragment_container, timetableContainerFragment, "2")
@@ -105,6 +109,10 @@ class MainActivity : AppCompatActivity(), MyListener {
                 fm.beginTransaction().hide(active).show(timetableContainerFragment).commit()
                 active = timetableContainerFragment
             }
+            R.id.action_settings -> {
+                fm.beginTransaction().hide(active).show(settingsFragment).commit()
+                active = settingsFragment
+            }
         }
         timetableContainerFragment.resetSelectedState()
         holidaysContainerFragment.resetSelectedState()
@@ -160,7 +168,6 @@ class MainActivity : AppCompatActivity(), MyListener {
         for (i in offset until offset + data.size) {
             toSend[i] = data[i - offset]
         }
-        e("MAIN ACTIVITY", "DATA EDITED")
     }
 
     override fun sendData(data: ByteArray, topic: String) {
@@ -189,5 +196,20 @@ class MainActivity : AppCompatActivity(), MyListener {
     override fun edit() {
         edit = true
         invalidateOptionsMenu()
+    }
+
+    @SuppressLint("ApplySharedPref")
+    override fun logout() {
+        startService(
+            Intent(this, IQService::class.java).putExtra(
+                IQService.ACTION,
+                IQService.STOP_SERVICE
+            )
+        )
+        startActivity(intentFor<ConnectActivity>().newTask().clearTask().clearTop())
+        val loginData = getSharedPreferences(ConnectActivity.LOGIN_DATA, Context.MODE_PRIVATE)
+        val ed = loginData.edit()
+        ed.clear()
+        ed.commit()
     }
 }

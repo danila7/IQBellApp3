@@ -73,9 +73,11 @@ class HomeFragment : Fragment() {
         mode.text = getString(
             when (iqMode) {
                 0 -> R.string.classes
+                1 -> R.string.sun_sat
+                2 -> R.string.holidays
+                3 -> R.string.day_off
                 4 -> R.string.not_started
-                5 -> R.string.finished
-                else -> R.string.non_school_day
+                else -> R.string.finished
             }
         )
         val shortTimetable = byteData[4].toUByte().toInt() > 127

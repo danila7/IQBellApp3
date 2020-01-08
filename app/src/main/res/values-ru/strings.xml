@@ -5,7 +5,7 @@
     <string name="mode_label">Режим</string>
     <string name="time_label">Время</string>
     <string name="loading">Загрузка…</string>
-    <string name="no_connection">Неудается подключиться к MQTT серверу</string>
+    <string name="no_connection">Не удается подключиться к MQTT серверу</string>
     <string name="iq_status">Состояние подключения:</string>
     <string name="developer">Разработчик: Горнушко Данила</string>
     <string name="purpose">Приложение для управления устройством IQBell</string>
@@ -60,4 +60,16 @@
     <string name="manual_bells_control_na">Ручное управление звонками не доступно</string>
     <string name="next_bell">Следующий звонок</string>
     <string name="time_till_next_bell">Время до него</string>
+    <string name="settings">Настройки</string>
+    <string name="login">Вход</string>
+    <string name="address_hint">Адрес сервера</string>
+    <string name="welcome">Добро пожаловать! Войдите чтобы продолжить</string>
+    <string name="username_hint">Имя пользователя</string>
+    <string name="sun_sat">Суббота/Воскресенье</string>
+    <string name="not_empty_warning">Поля не должны быть пустыми!</string>
+    <string name="not_valid_url_warning">Введите правильный URL!</string>
+    <string name="password_hint">Пароль</string>
+    <string name="port_hint">Порт</string>
+    <string name="logout">Выйти из аккаунта</string>
+    <string name="day_off">Выходной</string>
 </resources>

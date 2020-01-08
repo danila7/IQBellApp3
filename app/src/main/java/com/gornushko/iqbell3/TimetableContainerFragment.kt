@@ -1,7 +1,6 @@
 package com.gornushko.iqbell3
 
 import android.content.Context
-import android.util.Log.e
 
 
 @ExperimentalUnsignedTypes
@@ -29,6 +28,5 @@ class TimetableContainerFragment : MyContainerFragment() {
 
     override fun editData(data: ByteArray, offset: Int) {
         listener?.editData(data, offset + if (activeTab == 0) 0 else 24)
-        e("TIMETABLE CONTAINER", "DATA EDITED")
     }
 }
