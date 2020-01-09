@@ -2,6 +2,7 @@ package com.gornushko.iqbell3
 
 import android.app.DatePickerDialog
 import org.jetbrains.anko.support.v4.alert
+import org.jetbrains.anko.support.v4.toast
 import java.util.*
 
 @ExperimentalUnsignedTypes
@@ -49,34 +50,67 @@ class ShortHolidaysFragment(listener2: MyFragmentListener) : MyListFragment(list
         val c = GregorianCalendar()
         DatePickerDialog(
             activity!!, R.style.ThemeOverlay_AppCompat_Dialog,
-            DatePickerDialog.OnDateSetListener { _, _, mMonth, mDay ->
-                run {
-                    alert(getString(R.string.choose_short_or_holiday)) {
-                        negativeButton(getString((R.string.holiday_day))) {
-                            byteData[adapter?.selectedItem!! * 2] = (mMonth + 1).toUByte().toByte()
-                            byteData[adapter?.selectedItem!! * 2 + 1] = mDay.toUByte().toByte()
-                            updateView()
-                            listener2.editData(
-                                byteArrayOf(
-                                    (mMonth + 1).toUByte().toByte(),
-                                    mDay.toUByte().toByte()
-                                ), adapter?.selectedItem!! * 2
-                            )
-                        }
-                        positiveButton(getString(R.string.short_day)) {
-                            byteData[adapter?.selectedItem!! * 2] =
-                                ((mMonth + 1).toUByte() or 0x80.toUByte()).toByte()
-                            byteData[adapter?.selectedItem!! * 2 + 1] = mDay.toUByte().toByte()
-                            updateView()
-                            listener2.editData(
-                                byteArrayOf(
-                                    ((mMonth + 1).toUByte() or 0x80.toUByte()).toByte(),
-                                    mDay.toUByte().toByte()
-                                ), adapter?.selectedItem!! * 2
-                            )
-                        }
-                    }.show()
-                }
+            DatePickerDialog.OnDateSetListener { _, mYear, mMonth, mDay ->
+                if (mYear == GregorianCalendar().get(Calendar.YEAR)) {
+                    run {
+                        alert(
+                            when (GregorianCalendar(
+                                mYear,
+                                mMonth,
+                                mDay
+                            ).get(Calendar.DAY_OF_WEEK)) {
+                                1, 7 -> "${getString(R.string.you_chose)}: ${GregorianCalendar(
+                                    mYear, mMonth, mDay
+                                ).getDisplayName(
+                                    Calendar.DAY_OF_WEEK, Calendar.LONG,
+                                    Locale.getDefault()
+                                )}. ${getString(R.string.further_actions)}."
+                                else -> "${getString(R.string.you_chose)}: ${GregorianCalendar(
+                                    mYear, mMonth, mDay
+                                ).getDisplayName(
+                                    Calendar.DAY_OF_WEEK, Calendar.LONG,
+                                    Locale.getDefault()
+                                )}. ${getString(R.string.choose_short_or_holiday)}"
+                            }
+                        ) {
+                            negativeButton(
+                                getString(
+                                    when (GregorianCalendar(
+                                        mYear,
+                                        mMonth,
+                                        mDay
+                                    ).get(Calendar.DAY_OF_WEEK)) {
+                                        1, 7 -> (R.string.average_school_day)
+                                        else -> (R.string.holiday_day)
+                                    }
+                                )
+                            ) {
+                                byteData[adapter?.selectedItem!! * 2] =
+                                    (mMonth + 1).toUByte().toByte()
+                                byteData[adapter?.selectedItem!! * 2 + 1] = mDay.toUByte().toByte()
+                                updateView()
+                                listener2.editData(
+                                    byteArrayOf(
+                                        (mMonth + 1).toUByte().toByte(),
+                                        mDay.toUByte().toByte()
+                                    ), adapter?.selectedItem!! * 2
+                                )
+                            }
+                            positiveButton(getString(R.string.short_day)) {
+                                byteData[adapter?.selectedItem!! * 2] =
+                                    ((mMonth + 1).toUByte() or 0x80.toUByte()).toByte()
+                                byteData[adapter?.selectedItem!! * 2 + 1] = mDay.toUByte().toByte()
+                                updateView()
+                                listener2.editData(
+                                    byteArrayOf(
+                                        ((mMonth + 1).toUByte() or 0x80.toUByte()).toByte(),
+                                        mDay.toUByte().toByte()
+                                    ), adapter?.selectedItem!! * 2
+                                )
+                            }
+                        }.show()
+                    }
+                } else toast(getString(R.string.choose_current_year))
             }, c.get(Calendar.YEAR), c.get(Calendar.MONTH),
             c.get(Calendar.DAY_OF_MONTH)
         ).show()

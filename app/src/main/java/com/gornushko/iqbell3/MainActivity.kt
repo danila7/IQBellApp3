@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity(), MyListener {
     private val timetableContainerFragment = TimetableContainerFragment()
     private val holidaysContainerFragment = HolidaysContainerFragment()
     private val settingsFragment = SettingsFragment()
+    private val flashFragment = FlashFragment()
     private var active: Fragment = homeFragment
     private val fm = supportFragmentManager
     private var edit = false
@@ -40,10 +41,12 @@ class MainActivity : AppCompatActivity(), MyListener {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar as Toolbar?)
         bottomNavigation.setOnNavigationItemSelectedListener(navListener)
-        fm.beginTransaction().add(R.id.fragment_container, settingsFragment, "4")
+        fm.beginTransaction().add(R.id.fragment_container, settingsFragment, "5")
             .hide(settingsFragment).commit()
-        fm.beginTransaction().add(R.id.fragment_container, holidaysContainerFragment, "3")
+        fm.beginTransaction().add(R.id.fragment_container, holidaysContainerFragment, "4")
             .hide(holidaysContainerFragment).commit()
+        fm.beginTransaction().add(R.id.fragment_container, flashFragment, "3")
+            .hide(flashFragment).commit()
         fm.beginTransaction().add(R.id.fragment_container, timetableContainerFragment, "2")
             .hide(timetableContainerFragment).commit()
         fm.beginTransaction().add(R.id.fragment_container, homeFragment, "1").commit()
@@ -54,6 +57,7 @@ class MainActivity : AppCompatActivity(), MyListener {
         homeFragment.setStartExtraData(data.copyOfRange(0, 48))
         timetableContainerFragment.setStartData(data.copyOfRange(0, 48))
         holidaysContainerFragment.setStartData(data.copyOfRange(48, 112))
+        settingsFragment.setData(data[112])
         startService(
             intentFor<IQService>(
                 IQService.ACTION to IQService.NEW_PENDING_INTENT,
@@ -73,6 +77,8 @@ class MainActivity : AppCompatActivity(), MyListener {
                 if (edit) R.menu.menu_toolbar_send_edit else R.menu.menu_toolbar_send,
                 menu
             )
+            is SettingsFragment -> menuInflater.inflate(R.menu.menu_toolbar_send, menu)
+            is FlashFragment -> menuInflater.inflate(R.menu.menu_toolbar, menu)
         }
         return super.onCreateOptionsMenu(menu)
     }
@@ -113,6 +119,10 @@ class MainActivity : AppCompatActivity(), MyListener {
                 fm.beginTransaction().hide(active).show(settingsFragment).commit()
                 active = settingsFragment
             }
+            R.id.action_flash -> {
+                fm.beginTransaction().hide(active).show(flashFragment).commit()
+                active = flashFragment
+            }
         }
         timetableContainerFragment.resetSelectedState()
         holidaysContainerFragment.resetSelectedState()
@@ -137,6 +147,7 @@ class MainActivity : AppCompatActivity(), MyListener {
                 homeFragment.updateExtraData(extra!!.copyOfRange(0, 48))
                 timetableContainerFragment.updateData(extra.copyOfRange(0, 48))
                 holidaysContainerFragment.updateData(extra.copyOfRange(48, 112))
+                settingsFragment.setData(extra[112])
                 alert(R.string.data_updated) {
                     okButton {}
                 }.show()

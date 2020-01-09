@@ -40,7 +40,7 @@
     <string name="holidays_short_tab">Выходные/Сокращённые дни</string>
     <string name="short_day">Сокращённые уроки</string>
     <string name="holiday_day">Выходной</string>
-    <string name="choose_short_or_holiday">Короткие уроки или выходной?</string>
+    <string name="choose_short_or_holiday">Установить выходной или сокращённые уроки?</string>
     <string name="from">C</string>
     <string name="to">по</string>
     <string name="set_start_date">Установите начало каникул</string>
@@ -72,4 +72,10 @@
     <string name="port_hint">Порт</string>
     <string name="logout">Выйти из аккаунта</string>
     <string name="day_off">Выходной</string>
+    <string name="flash">Экспресс</string>
+    <string name="timezone">Часовой пояс</string>
+    <string name="you_chose">Вы выбрали</string>
+    <string name="further_actions">Дальнейшие действия сделают этот день учебным</string>
+    <string name="average_school_day">Обычный школьный день</string>
+    <string name="choose_current_year">Выберите текущий год!</string>
 </resources>

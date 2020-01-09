@@ -41,7 +41,7 @@
     <string name="holidays_long_tab">Long holidays</string>
     <string name="short_day">Short classes</string>
     <string name="holiday_day">Holiday</string>
-    <string name="choose_short_or_holiday">Short classes or holiday?</string>
+    <string name="choose_short_or_holiday">Make it holiday or set short classes?</string>
     <string name="from">From</string>
     <string name="to">to</string>
     <string name="set_start_date">Set start of the holidays</string>
@@ -72,4 +72,10 @@
     <string name="not_valid_url_warning">Enter valid URL!</string>
     <string name="day_off">Day Off</string>
     <string name="sun_sat">Sunday/Saturday</string>
+    <string name="flash">Flash</string>
+    <string name="timezone">Timezone</string>
+    <string name="you_chose">You chose</string>
+    <string name="further_actions">Further actions will make this day school one</string>
+    <string name="average_school_day">Average school day</string>
+    <string name="choose_current_year">Choose current year!</string>
 </resources>
