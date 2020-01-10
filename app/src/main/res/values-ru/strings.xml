@@ -77,6 +77,6 @@
     <string name="you_chose">Вы выбрали</string>
     <string name="further_actions">Дальнейшие действия сделают этот день учебным</string>
     <string name="average_school_day">Обычный школьный день</string>
-    <string name="choose_current_year">Выберите текущий год!</string>
     <string name="current_timezone">Текущий часовой пояс</string>
+    <string name="choose_correct_date">Мы не можем изменить прошлое, мы не должны заглядывать слишком далеко в будущее!</string>
 </resources>

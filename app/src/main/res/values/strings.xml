@@ -77,6 +77,6 @@
     <string name="you_chose">You chose</string>
     <string name="further_actions">Further actions will make this day school one</string>
     <string name="average_school_day">Average school day</string>
-    <string name="choose_current_year">Choose current year!</string>
     <string name="current_timezone">Current timezone</string>
+    <string name="choose_correct_date">We can\'t change the past, we must not look too far into the future!</string>
 </resources>

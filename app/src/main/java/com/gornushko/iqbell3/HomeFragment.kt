@@ -63,7 +63,10 @@ class HomeFragment : Fragment() {
         val iqTime: Calendar = GregorianCalendar.getInstance()
         iqTime.timeInMillis = localToUTC(getLongFromByteArray(byteData) * 1_000)
         date.text = df.format(iqTime.time)
-        time.text = tf.format(iqTime.time)
+        time.text = "${tf.format(iqTime.time)}, ${iqTime.getDisplayName(
+            Calendar.DAY_OF_WEEK, Calendar.LONG,
+            Locale.getDefault()
+        )}"
         clock.setTime(
             iqTime.get(Calendar.HOUR),
             iqTime.get(Calendar.MINUTE),

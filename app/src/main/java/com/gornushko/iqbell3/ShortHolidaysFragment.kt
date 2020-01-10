@@ -51,7 +51,17 @@ class ShortHolidaysFragment(listener2: MyFragmentListener) : MyListFragment(list
         DatePickerDialog(
             activity!!, R.style.ThemeOverlay_AppCompat_Dialog,
             DatePickerDialog.OnDateSetListener { _, mYear, mMonth, mDay ->
-                if (mYear == GregorianCalendar().get(Calendar.YEAR)) {
+                if ((0 < ((GregorianCalendar(
+                        mYear,
+                        mMonth,
+                        mDay
+                    ).timeInMillis - c.timeInMillis) / (1000 * 3600 * 24))) and
+                    (((GregorianCalendar(
+                        mYear,
+                        mMonth,
+                        mDay
+                    ).timeInMillis - c.timeInMillis) / (1000 * 3600 * 24)) < 355)
+                ) {
                     run {
                         alert(
                             when (GregorianCalendar(
@@ -110,7 +120,7 @@ class ShortHolidaysFragment(listener2: MyFragmentListener) : MyListFragment(list
                             }
                         }.show()
                     }
-                } else toast(getString(R.string.choose_current_year))
+                } else toast(getString(R.string.choose_correct_date))
             }, c.get(Calendar.YEAR), c.get(Calendar.MONTH),
             c.get(Calendar.DAY_OF_MONTH)
         ).show()
