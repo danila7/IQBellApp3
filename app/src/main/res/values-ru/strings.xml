@@ -78,4 +78,5 @@
     <string name="further_actions">Дальнейшие действия сделают этот день учебным</string>
     <string name="average_school_day">Обычный школьный день</string>
     <string name="choose_current_year">Выберите текущий год!</string>
+    <string name="current_timezone">Текущий часовой пояс</string>
 </resources>

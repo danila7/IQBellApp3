@@ -1,6 +1,7 @@
 package com.gornushko.iqbell3
 
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,6 +18,7 @@ import org.jetbrains.anko.sdk27.coroutines.onClick
 class SettingsFragment : Fragment() {
 
     private lateinit var listener: MyListener
+    private var offset: Byte? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -53,12 +55,25 @@ class SettingsFragment : Fragment() {
         return view
     }
 
-    fun setData(offset: Byte) {
-        view?.spinner?.setSelection(offset.toInt())
+    fun setStartData(i: Byte) {
+        offset = i
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         super.onResume()
+        updateView()
+    }
+
+    fun updateData(i: Byte) {
+        offset = i
+        updateView()
+    }
+
+    @SuppressLint("SetTextI18n")
+    fun updateView() {
+        view?.current_timezone?.text =
+            "${getString(R.string.current_timezone)}: GMT+${offset!!.toInt() + 2}"
+        view?.spinner?.setSelection(offset!!.toInt())
     }
 }

@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.*
 
 @ExperimentalUnsignedTypes
-class MainActivity : AppCompatActivity(), MyListener {
+class MainActivity : AppCompatActivity(), MyListener, MyFragmentListener {
 
     companion object Const {
         const val START_INFO = "start_d"
@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity(), MyListener {
         homeFragment.setStartExtraData(data.copyOfRange(0, 48))
         timetableContainerFragment.setStartData(data.copyOfRange(0, 48))
         holidaysContainerFragment.setStartData(data.copyOfRange(48, 112))
-        settingsFragment.setData(data[112])
+        settingsFragment.setStartData(data[112])
         startService(
             intentFor<IQService>(
                 IQService.ACTION to IQService.NEW_PENDING_INTENT,
@@ -147,7 +147,7 @@ class MainActivity : AppCompatActivity(), MyListener {
                 homeFragment.updateExtraData(extra!!.copyOfRange(0, 48))
                 timetableContainerFragment.updateData(extra.copyOfRange(0, 48))
                 holidaysContainerFragment.updateData(extra.copyOfRange(48, 112))
-                settingsFragment.setData(extra[112])
+                settingsFragment.updateData(extra[112])
                 alert(R.string.data_updated) {
                     okButton {}
                 }.show()

@@ -12,11 +12,11 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.experimental.and
 
 
-private val iqTime: Calendar = GregorianCalendar.getInstance()
 private val df = DateFormat.getDateInstance(DateFormat.LONG)
 private val tf = DateFormat.getTimeInstance(DateFormat.DEFAULT)
 private lateinit var byteData: ByteArray
@@ -60,8 +60,8 @@ class HomeFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun updateView() {
-        iqTime.timeInMillis =
-            getLongFromByteArray(byteData) * 1_000 //-3 h (Arduino stores MSC time, Android - UTC)
+        val iqTime: Calendar = GregorianCalendar.getInstance()
+        iqTime.timeInMillis = localToUTC(getLongFromByteArray(byteData) * 1_000)
         date.text = df.format(iqTime.time)
         time.text = tf.format(iqTime.time)
         clock.setTime(
@@ -151,5 +151,22 @@ class HomeFragment : Fragment() {
         var result = 0u
         for (i in 3 downTo 0) result = (result shl 8) + data[i].toUByte()
         return result.toLong()
+    }
+
+    @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+    @SuppressLint("SimpleDateFormat")
+    fun localToUTC(time: Long): Long {
+        try {
+            val dateFormat = SimpleDateFormat("yyyy.MM.dd HH:mm:ss")
+            val date = Date(time)
+            dateFormat.timeZone = TimeZone.getTimeZone("UTC")
+            val strDate: String = dateFormat.format(date)
+            val dateFormatLocal = SimpleDateFormat("yyyy.MM.dd HH:mm:ss")
+            val utcDate: Date = dateFormatLocal.parse(strDate)
+            return utcDate.time
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return time
     }
 }

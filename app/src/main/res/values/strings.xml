@@ -78,4 +78,5 @@
     <string name="further_actions">Further actions will make this day school one</string>
     <string name="average_school_day">Average school day</string>
     <string name="choose_current_year">Choose current year!</string>
+    <string name="current_timezone">Current timezone</string>
 </resources>
