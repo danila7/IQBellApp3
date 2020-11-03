@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:lib="http://schemas.android.com/apk/res-auto"
     tools:context=".ConnectActivity">
 
     <include
@@ -25,31 +24,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
-
-    <com.github.glomadrian.loadingballs.BallView
-        android:id="@+id/progress"
-        android:visibility="gone"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="112dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/status"
-        app:layout_constraintVertical_bias="0.26"
-        lib:ball_colors="@array/colors"
-        lib:balls="3"
-        lib:enable_size_animation="true"
-        lib:max_ball_size="17dp"
-        lib:min_ball_size="7dp"
-        lib:movement_cycle_time="1800"
-        lib:path="triangle"
-        lib:size_cycle_time="1800" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/addressLayout"

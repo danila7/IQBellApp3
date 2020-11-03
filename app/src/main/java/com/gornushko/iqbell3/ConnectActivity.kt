@@ -55,7 +55,7 @@ class ConnectActivity : AppCompatActivity() {
         loginData = getSharedPreferences(LOGIN_DATA, Context.MODE_PRIVATE)
         if (loginData.contains(URL_N_PORT)) {
             status.text = getString(R.string.loading)
-            progress.visibility = View.VISIBLE
+            //progress.visibility = View.VISIBLE
             logout.visibility = View.VISIBLE
             addressLayout.visibility = View.GONE
             portLayout.visibility = View.GONE
@@ -130,7 +130,7 @@ class ConnectActivity : AppCompatActivity() {
         if (usr.isNotBlank() and pass.isNotBlank() and addr.isNotBlank() and pr.isNotBlank()) {
             if (Patterns.WEB_URL.matcher(addr).matches()) {
                 status.text = getString(R.string.loading)
-                progress.visibility = View.VISIBLE
+                //progress.visibility = View.VISIBLE
                 logout.visibility = View.VISIBLE
                 addressLayout.visibility = View.GONE
                 portLayout.visibility = View.GONE
@@ -165,7 +165,7 @@ class ConnectActivity : AppCompatActivity() {
         ed.clear()
         ed.commit()
         status.text = getString(R.string.welcome)
-        progress.visibility = View.GONE
+        //progress.visibility = View.GONE
         logout.visibility = View.GONE
         addressLayout.visibility = View.VISIBLE
         portLayout.visibility = View.VISIBLE
